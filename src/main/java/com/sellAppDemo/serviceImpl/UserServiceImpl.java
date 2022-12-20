@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPhoneno(userDto.getPhoneno());
-
-        user.setPassword(userDto.getPassword());
+        UUID uuid = UUID.randomUUID();
+        user.setPassword(uuid.toString());
         user.setAddress(userDto.getAddress());
         userRepository.save(user);
         return null;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         for(User user:list){
             UserDto dt = new UserDto();
             dt.setId(user.getId());
-            dt.setPassword(user.getPassword());
+            dt.setAddress(user.getAddress());
             dt.setName(user.getName());
             dt.setEmail(user.getEmail());
             UUID uuid=UUID.randomUUID();  // rendom password generation
