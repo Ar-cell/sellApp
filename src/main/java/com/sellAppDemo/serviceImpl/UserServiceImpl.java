@@ -5,10 +5,12 @@ import com.sellAppDemo.entity.User;
 import com.sellAppDemo.repository.UserRepository;
 import com.sellAppDemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -47,7 +49,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Integer id) {
+    public Optional<User> getUser(Integer id) {
+    Optional<User> usreOptional = userRepository.findById(id);
+    if(!usreOptional.isPresent()){
+        System.out.println("user not found for this id: " + id);
+    }
+        return userRepository.findById(id);
+    }
+
+//    @Override
+//    public ResponseEntity<?> getById(Integer id) {
+//        Optional<User> userOptional = userRepository.findById(id);
+//        if(!userOptional.isPresent()){
+//            return new ResponseEntity<>("not found for this id :", HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseEntity<>
+//    }
+
+    public UserDto userById(Integer id){
+        Optional<User> userOp = userRepository.findById(id);
+        if(userOp.isPresent()){
+            User user = userOp.get();
+            UserDto dt = new UserDto();
+            dt.setAddress(user.getAddress());
+            dt.setEmail(user.getEmail());
+            dt.setPhoneno(user.getPhoneno());
+            dt.setName(user.getName());
+            dt.setId(user.getId());
+            return dt;
+        }
+
         return null;
     }
 }

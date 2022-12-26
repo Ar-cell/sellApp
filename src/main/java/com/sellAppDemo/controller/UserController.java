@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -45,6 +46,13 @@ public class UserController {
         return userService.fetchUserList();
     }
 
+
+    @GetMapping("/get/{id}")
+    public Optional<User> getUser(@PathVariable Integer id){
+        return userService.getUser(id);
+    }
+
+    //this is for Excel download
     @GetMapping("/download")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
